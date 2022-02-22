@@ -24,6 +24,39 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+//Timestamp Microservice Solution :D
+app.get("/api/:dateInput",(req,res)=>{
+  var inputValue=req.params.dateInput;
+  var inputDate=new Date(inputValue).getTime();
+  var inputTimeStamp=new Date(parseInt(inputValue)).getTime();
+  
+  if(inputDate>0)
+  {
+  res.json({
+    unix:moment(inputValue).unix()*1000,
+    utc:new Date(inputValue).toUTCString()
+  })
+}
+else if(inputTimeStamp>0)
+{
+   res.json({
+    unix:moment(parseInt(inputValue)).unix()*1000,
+    utc:new Date(parseInt(inputValue)).toUTCString()
+  })
+}
+else{
+  res.json({
+    error:"invalid date"
+  });
+}
+});
+
+app.get("/api",(req,res)=>{
+  res.json({
+    unix:moment().unix()*1000,
+    utc:new Date().toUTCString()
+  })
+});
 
 
 // listen for requests :)
